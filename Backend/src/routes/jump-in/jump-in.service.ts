@@ -51,5 +51,7 @@ export class JumpInService {
       sameSite: false,
       priority: 'high',
     });
+
+    res.send('User assigned!');
   }
 }

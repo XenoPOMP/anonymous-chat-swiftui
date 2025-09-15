@@ -15,6 +15,5 @@ export class JumpInController {
     @Res({ passthrough: true }) res: Response,
   ) {
     await this.jumpInService.jumpUserIn(res, req);
-    return res;
   }
 }
