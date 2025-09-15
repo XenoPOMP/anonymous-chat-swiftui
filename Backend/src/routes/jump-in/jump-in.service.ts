@@ -2,9 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { parseCookies } from '../../utils/parse-cookies';
 import { USER_INOUT_ID_COOKIE_NAME } from '../../constants/user-inout-id';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class JumpInService {
+  constructor(private readonly userService: UserService) {}
+
   private EXPIRE_DAY_INOUT_ID: number = 7;
 
   async jumpUserIn(res: Response, req: Request) {
