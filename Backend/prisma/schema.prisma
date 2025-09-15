@@ -12,3 +12,22 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// User is anonymous. That means, that we do not store any logins, emails,
+// passwords etc.
+model User {
+  id            String    @id @default(cuid())
+  generatedName String    @map("generated_name")
+  messages      Message[]
+
+  @@map("user")
+}
+
+model Message {
+  id          String @id @default(cuid())
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String @map("user_id")
+  textContent String @map("text_content")
+
+  @@map("message")
+}
