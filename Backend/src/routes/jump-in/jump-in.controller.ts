@@ -10,7 +10,11 @@ export class JumpInController {
   @Endpoint('POST', '/', {
     code: HttpStatus.OK,
   })
-  async jumpUserIn(@Res() res: Response, @Req() req: Request) {
-    return this.jumpInService.jumpUserIn(res, req);
+  async jumpUserIn(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    await this.jumpInService.jumpUserIn(res, req);
+    return res;
   }
 }
