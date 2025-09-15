@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { AllMethods } from 'supertest/types';
 import { Fn } from 'xenopomp-essentials';
+import { JumpInRequired } from '../guards/jump-in-required.guard';
 
 // import { Auth } from '../routes/auth/decorators';
 // import { PermissionList, RequiresPermissions } from '../routes/auth/guards';
@@ -42,8 +43,8 @@ interface EndpointOptions {
   /** If true, will pass only registered users. */
   authRequired?: boolean;
 
-  /** List of required permission for accessing the route. */
-  // permissions?: PermissionList;
+  /** If true, inoutId will not be required. */
+  public?: boolean;
 }
 
 /**
@@ -56,6 +57,7 @@ interface EndpointOptions {
  * @example
  * \@Endpoint('GET', '/test', {
  *     code: 201,
+ *     public: true,
  *   })
  *   async test(): Promise<DataResponse<string>> {
  *     return handleData('Test');
@@ -69,15 +71,14 @@ export function Endpoint(type: Method, path?: Path, options?: EndpointOptions) {
   // Default values
   const code = options?.code ?? 200;
   const validate = options?.validate ?? false;
-  // const authRequired = options?.authRequired ?? false;
+  const isPublic: boolean = options?.public ?? false;
 
   // Allow optionally adding decorators
   const decorators = [
     validate ? UsePipes(new ValidationPipe()) : undefined,
     HttpCode(code),
     HttpMethod(path),
-    // options?.permissions ? RequiresPermissions(options.permissions) : undefined,
-    // authRequired ? Auth() : undefined,
+    isPublic ? undefined : JumpInRequired(),
   ]
     .filter((d) => d !== undefined)
     .reverse();
