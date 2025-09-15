@@ -9,6 +9,7 @@ export class JumpInController {
 
   @Endpoint('POST', '/', {
     code: HttpStatus.OK,
+    public: true,
   })
   async jumpUserIn(
     @Req() req: Request,
