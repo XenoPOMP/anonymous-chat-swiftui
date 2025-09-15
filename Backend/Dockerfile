@@ -3,11 +3,9 @@ FROM node:22-alpine AS build
 RUN apk add --no-cache openssl
 WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
+COPY prisma ./prisma
 RUN yarn --frozen-lockfile
 COPY . .
-# Copy the prisma directory and generate client
-COPY prisma ./prisma
-RUN npx prisma generate
 RUN yarn build
 
 # Stage 2: Run the application
