@@ -1,0 +1,21 @@
+# Stage 1: Build the application
+FROM node:20.9.0-alpine AS build
+RUN apk add --no-cache openssl
+WORKDIR /usr/src/app
+COPY package.json yarn.lock ./
+RUN yarn --frozen-lockfile
+COPY . .
+# Copy the prisma directory and generate client
+COPY prisma ./prisma
+RUN npx prisma generate
+RUN yarn build
+
+# Stage 2: Run the application
+FROM node:20.9.0-alpine
+WORKDIR /usr/src/app
+COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/package.json /usr/src/app/yarn.lock ./
+COPY --from=build /usr/src/app/prisma ./prisma
+EXPOSE 4242
+CMD ["yarn", "start:migrate:prod"]
