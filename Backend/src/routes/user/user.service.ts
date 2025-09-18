@@ -9,10 +9,19 @@ import {
 } from 'unique-names-generator';
 import { User } from '@prisma/client';
 import { Nullable } from 'xenopomp-essentials';
+import seedColor from 'seed-color';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
+
+  /**
+   * Extracts color for user`s generated name.
+   * @param user {User}  fetched user
+   */
+  getSeededColor({ generatedName }: User): string {
+    return seedColor(generatedName).toHex();
+  }
 
   getRandomName(): string {
     const config: NamesGeneratorConfig = {
