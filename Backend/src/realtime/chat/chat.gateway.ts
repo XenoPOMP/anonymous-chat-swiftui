@@ -3,13 +3,10 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  WsException,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import * as cookie from 'cookie';
-import * as cookieParser from 'cookie-parser';
 import { USER_INOUT_ID_COOKIE_NAME } from '../../constants/user-inout-id';
-import { UnauthorizedException } from '@nestjs/common';
 
 @WebSocketGateway({
   cors: {
@@ -24,10 +21,19 @@ export class ChatGateway implements OnGatewayConnection {
     const handshake = client.handshake;
     const cookieHeader = handshake.headers.cookie;
 
-    if (cookieHeader) {
-      // Parse unsigned cookies
-      const parsedCookies = cookie.parse(cookieHeader);
-      console.log(parsedCookies[USER_INOUT_ID_COOKIE_NAME]);
+    if (!cookieHeader) {
+      client._error('failed to authenticate');
+      return;
+    }
+
+    // Parse unsigned cookies
+    const parsedCookies = cookie.parse(cookieHeader);
+    const inoutUserId: string | undefined =
+      parsedCookies[USER_INOUT_ID_COOKIE_NAME];
+
+    if (!inoutUserId) {
+      client._error('failed to authenticate');
+      return;
     }
   }
 
