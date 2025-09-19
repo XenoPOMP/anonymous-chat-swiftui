@@ -11,11 +11,30 @@ import Alamofire
 struct ChatView: View {
     @EnvironmentObject<MessageStore> private var messageStore
     
+    private var parsedMessages: [ParsedMessageModel] {
+        messageStore.messages.map(ParsedMessageModel.init)
+            .sortInOrder(of: .asc, by: \.createdAt)
+    }
+    
     var body: some View {
-        VStack {
-            Text("Logged")
-            Text("Loaded messages count: \(messageStore.messages.count)")
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(parsedMessages, id: \.id) { parsed in
+                    let id = parsedMessages.firstIndex(where: { $0.id == parsed.id }) ?? 0
+                    let prevId = id - 1
+                    
+                    MessageView(
+                        isChained: parsedMessages.indices.contains(prevId) &&
+                            parsedMessages[prevId].generatedName == parsed.generatedName,
+                        data: parsed
+                    )
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
         }
+        .defaultScrollAnchor(.bottom)
         .task {
             AF.request("\(AppConstants.api.url)/messages").responseDecodable(of: [MessageModel].self) { response in
                 switch response.result {

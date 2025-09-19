@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		339C2FB92E7D78FA001F5FF6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 339C2FB82E7D78FA001F5FF6 /* Alamofire */; };
+		339C2FDA2E7D8597001F5FF6 /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = 339C2FD92E7D8597001F5FF6 /* SwiftDate */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				339C2FDA2E7D8597001F5FF6 /* SwiftDate in Frameworks */,
 				339C2FB92E7D78FA001F5FF6 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +98,7 @@
 			name = AnonymousChat;
 			packageProductDependencies = (
 				339C2FB82E7D78FA001F5FF6 /* Alamofire */,
+				339C2FD92E7D8597001F5FF6 /* SwiftDate */,
 			);
 			productName = AnonymousChat;
 			productReference = 337D8BB22E7840690071D405 /* AnonymousChat.app */;
@@ -154,6 +157,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				339C2FB72E7D78FA001F5FF6 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				339C2FD82E7D8597001F5FF6 /* XCRemoteSwiftPackageReference "SwiftDate" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 337D8BB32E7840690071D405 /* Products */;
@@ -471,6 +475,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		339C2FD82E7D8597001F5FF6 /* XCRemoteSwiftPackageReference "SwiftDate" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/malcommac/SwiftDate.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -478,6 +490,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 339C2FB72E7D78FA001F5FF6 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		339C2FD92E7D8597001F5FF6 /* SwiftDate */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 339C2FD82E7D8597001F5FF6 /* XCRemoteSwiftPackageReference "SwiftDate" */;
+			productName = SwiftDate;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

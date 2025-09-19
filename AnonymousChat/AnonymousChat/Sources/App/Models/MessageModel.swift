@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftDate
 
 struct ParsedMessageModel {
     var id: String
@@ -13,6 +14,14 @@ struct ParsedMessageModel {
     var generatedName: String
     var seededColor: String
     var textContent: String
+    
+    init(_ model: MessageModel) {
+        self.id = model.id
+        self.createdAt = model.createdAt.toDate()!.date
+        self.generatedName = model.generatedName
+        self.seededColor = model.seededColor
+        self.textContent = model.textContent
+    }
 }
 
 struct MessageModel: Codable {
@@ -21,6 +30,10 @@ struct MessageModel: Codable {
     var generatedName: String
     var seededColor: String
     var textContent: String
+    
+    var parsed: ParsedMessageModel {
+        ParsedMessageModel(self)
+    }
 }
 
 class MessageStore: ObservableObject {
