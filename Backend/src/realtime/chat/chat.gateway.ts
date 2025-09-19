@@ -79,12 +79,20 @@ export class ChatGateway implements OnGatewayConnection {
     await this.passUser(client);
   }
 
-  @SubscribeMessage('sub')
-  async handleSubscribe(client: Socket) {
+  @SubscribeMessage('message')
+  async receiveMessageFromClient(client: Socket, payload) {
     const user: Nullable<User> = await this.passUser(client);
 
     if (!user) {
       return;
     }
+
+    if (typeof payload !== 'string') {
+      return;
+    }
+
+    const { generatedName, createdAt } = user;
+    const seededColor: string = this.userService.getSeededColor(user);
+    this.server.emit('message', generatedName, seededColor, createdAt, payload);
   }
 }
