@@ -12,6 +12,7 @@ struct AnonymousChatApp: App {
     var body: some Scene {
         WindowGroup {
             Main()
+                .environmentObject(MessageStore())
         }
     }
 }
