@@ -5,9 +5,10 @@ import { JumpInModule } from './routes/jump-in/jump-in.module';
 import { UserModule } from './routes/user/user.module';
 import { PrismaModule } from './features/prisma/prisma.module';
 import { ChatGateway } from './realtime/chat/chat.gateway';
+import { MessagesModule } from './routes/messages/messages.module';
 
 @Module({
-  imports: [JumpInModule, UserModule, PrismaModule],
+  imports: [JumpInModule, UserModule, PrismaModule, MessagesModule],
   controllers: [AppController],
   providers: [AppService, ChatGateway],
 })
