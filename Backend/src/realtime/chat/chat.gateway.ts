@@ -7,6 +7,9 @@ import {
 import { Server, Socket } from 'socket.io';
 import * as cookie from 'cookie';
 import { USER_INOUT_ID_COOKIE_NAME } from '../../constants/user-inout-id';
+import { Nullable } from 'xenopomp-essentials';
+import { ParsedCookiesResult } from '../../utils/parse-cookies';
+import { JumpInRequired } from '../../guards/jump-in-required.guard';
 
 @WebSocketGateway({
   cors: {
@@ -17,13 +20,13 @@ import { USER_INOUT_ID_COOKIE_NAME } from '../../constants/user-inout-id';
 export class ChatGateway implements OnGatewayConnection {
   @WebSocketServer() server: Server;
 
-  handleConnection(client: Socket, ...args) {
+  private parseCookies(client: Socket): Nullable<ParsedCookiesResult> {
     const handshake = client.handshake;
     const cookieHeader = handshake.headers.cookie;
 
     if (!cookieHeader) {
       client._error('failed to authenticate');
-      return;
+      return null;
     }
 
     // Parse unsigned cookies
@@ -33,12 +36,20 @@ export class ChatGateway implements OnGatewayConnection {
 
     if (!inoutUserId) {
       client._error('failed to authenticate');
-      return;
+      return null;
     }
+
+    return {
+      inoutUserId,
+    };
   }
 
-  @SubscribeMessage('message')
-  handleMessage(client: any, payload: any): string {
-    return 'Hello world!';
+  handleConnection(client: Socket, ...args) {
+    this.parseCookies(client);
+  }
+
+  @SubscribeMessage('sub')
+  handleSubscribe(client: Socket) {
+    // const id = client.id;
   }
 }

@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { USER_INOUT_ID_COOKIE_NAME } from '../constants/user-inout-id';
 
-interface ParsedCookiesResult {
+export interface ParsedCookiesResult {
   inoutUserId: string | undefined;
 }
 
