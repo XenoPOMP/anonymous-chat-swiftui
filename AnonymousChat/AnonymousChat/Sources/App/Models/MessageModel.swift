@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+struct ParsedMessageModel {
+    var id: String
+    var createdAt: Date
+    var generatedName: String
+    var seededColor: String
+    var textContent: String
+}
+
 struct MessageModel: Codable {
     var id: String
     var createdAt: String
