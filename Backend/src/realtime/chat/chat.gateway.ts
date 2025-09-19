@@ -11,6 +11,7 @@ import { Nullable } from 'xenopomp-essentials';
 import { ParsedCookiesResult } from '../../utils/parse-cookies';
 import { UserService } from '../../routes/user/user.service';
 import { User } from '@prisma/client';
+import { MessagesService } from '../../routes/messages/messages.service';
 
 @WebSocketGateway({
   cors: {
@@ -19,7 +20,10 @@ import { User } from '@prisma/client';
   },
 })
 export class ChatGateway implements OnGatewayConnection {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly messagesService: MessagesService,
+  ) {}
 
   @WebSocketServer() server: Server;
 
