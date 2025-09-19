@@ -11,7 +11,10 @@ import { Nullable } from 'xenopomp-essentials';
 import { ParsedCookiesResult } from '../../utils/parse-cookies';
 import { UserService } from '../../routes/user/user.service';
 import { Message, User } from '@prisma/client';
-import { MessagesService } from '../../routes/messages/messages.service';
+import {
+  MessageResponse,
+  MessagesService,
+} from '../../routes/messages/messages.service';
 
 @WebSocketGateway({
   cors: {
@@ -105,13 +108,14 @@ export class ChatGateway implements OnGatewayConnection {
     const { createdAt, textContent, id } = newMessage;
     const seededColor = this.userService.getSeededColor(newMessage.user);
 
-    this.server.emit(
-      'message',
+    const response: MessageResponse = {
       id,
       createdAt,
       generatedName,
       seededColor,
       textContent,
-    );
+    };
+
+    this.server.emit('message', JSON.stringify(response));
   }
 }
