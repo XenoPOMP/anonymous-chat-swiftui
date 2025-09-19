@@ -1,6 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagesService } from './messages.service';
-import { Message } from '@prisma/client';
+import { MessageResponse, MessagesService } from './messages.service';
 import { Endpoint } from '../../decorators/endpoint';
 
 @Controller('messages')
@@ -10,7 +9,7 @@ export class MessagesController {
   @Endpoint('GET', '/', {
     code: 200,
   })
-  async getHistory(): Promise<Message[]> {
+  async getHistory(): Promise<MessageResponse[]> {
     return this.messagesService.getAll();
   }
 }

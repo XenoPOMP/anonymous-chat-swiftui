@@ -10,7 +10,7 @@ import { USER_INOUT_ID_COOKIE_NAME } from '../../constants/user-inout-id';
 import { Nullable } from 'xenopomp-essentials';
 import { ParsedCookiesResult } from '../../utils/parse-cookies';
 import { UserService } from '../../routes/user/user.service';
-import { User } from '@prisma/client';
+import { Message, User } from '@prisma/client';
 import { MessagesService } from '../../routes/messages/messages.service';
 
 @WebSocketGateway({
@@ -95,8 +95,23 @@ export class ChatGateway implements OnGatewayConnection {
       return;
     }
 
-    const { generatedName, createdAt } = user;
-    const seededColor: string = this.userService.getSeededColor(user);
-    this.server.emit('message', generatedName, seededColor, createdAt, payload);
+    const newMessage: Message & { user: User } =
+      await this.messagesService.createOne({
+        userId: user.id,
+        textContent: payload,
+      });
+
+    const { generatedName } = newMessage.user;
+    const { createdAt, textContent, id } = newMessage;
+    const seededColor = this.userService.getSeededColor(newMessage.user);
+
+    this.server.emit(
+      'message',
+      id,
+      createdAt,
+      generatedName,
+      seededColor,
+      textContent,
+    );
   }
 }
