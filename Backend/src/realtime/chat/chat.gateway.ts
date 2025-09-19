@@ -9,7 +9,8 @@ import * as cookie from 'cookie';
 import { USER_INOUT_ID_COOKIE_NAME } from '../../constants/user-inout-id';
 import { Nullable } from 'xenopomp-essentials';
 import { ParsedCookiesResult } from '../../utils/parse-cookies';
-import { JumpInRequired } from '../../guards/jump-in-required.guard';
+import { UserService } from '../../routes/user/user.service';
+import { User } from '@prisma/client';
 
 @WebSocketGateway({
   cors: {
@@ -18,6 +19,8 @@ import { JumpInRequired } from '../../guards/jump-in-required.guard';
   },
 })
 export class ChatGateway implements OnGatewayConnection {
+  constructor(private readonly userService: UserService) {}
+
   @WebSocketServer() server: Server;
 
   private parseCookies(client: Socket): Nullable<ParsedCookiesResult> {
@@ -44,12 +47,44 @@ export class ChatGateway implements OnGatewayConnection {
     };
   }
 
-  handleConnection(client: Socket, ...args) {
-    this.parseCookies(client);
+  /**
+   * Returns fetched user, if credentials are
+   * correct. It also handles errors for client response.
+   * @param client
+   * @private
+   */
+  private async passUser(client: Socket): Promise<Nullable<User>> {
+    const cookies = this.parseCookies(client);
+
+    // Cookies are undefined
+    if (!cookies || !cookies.inoutUserId) {
+      client._error('failed to authenticate');
+      return null;
+    }
+
+    const oldUser: Nullable<User> = await this.userService.getById(
+      cookies.inoutUserId,
+    );
+
+    // User does not exist
+    if (!oldUser) {
+      client._error('wrong credentials');
+      return null;
+    }
+
+    return oldUser;
+  }
+
+  async handleConnection(client: Socket) {
+    await this.passUser(client);
   }
 
   @SubscribeMessage('sub')
-  handleSubscribe(client: Socket) {
-    // const id = client.id;
+  async handleSubscribe(client: Socket) {
+    const user: Nullable<User> = await this.passUser(client);
+
+    if (!user) {
+      return;
+    }
   }
 }
