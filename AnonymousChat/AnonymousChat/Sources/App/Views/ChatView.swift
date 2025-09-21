@@ -16,6 +16,17 @@ struct ChatView: View {
             .sortInOrder(of: .asc, by: \.createdAt)
     }
     
+    private func prefetchMessages() {
+        AF.request("\(AppConstants.api.url)/messages").responseDecodable(of: [MessageModel].self) { response in
+            switch response.result {
+            case .success(let messages):
+                messageStore.messages = messages
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -37,17 +48,13 @@ struct ChatView: View {
             }
             .defaultScrollAnchor(.bottom)
             .task {
-                AF.request("\(AppConstants.api.url)/messages").responseDecodable(of: [MessageModel].self) { response in
-                    switch response.result {
-                    case .success(let messages):
-                        messageStore.messages = messages
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
+                prefetchMessages()
             }
             
             KeyboardView()
+        }
+        .refreshable {
+            prefetchMessages()
         }
     }
 }
