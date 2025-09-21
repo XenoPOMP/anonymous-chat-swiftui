@@ -1,5 +1,5 @@
 {
-  "originHash" : "8b4a9441b5926a1e3518d88236feb10b68a28266852ea73c92f56a08fa4bfe72",
+  "originHash" : "4008f8d0c437c1a5dcf38d1d6d6f69b5ed9e6344c0552fdea4ca23a9f72698da",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
         "version" : "5.10.2"
+      }
+    },
+    {
+      "identity" : "avios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/XenoPOMP/Avios.git",
+      "state" : {
+        "revision" : "c37f90b053a8bd3ee06a579eccddf0fc0fa68204",
+        "version" : "0.2.0"
       }
     },
     {

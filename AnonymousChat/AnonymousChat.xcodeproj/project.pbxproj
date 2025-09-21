@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		333A72292E806F3700E573F1 /* Avios in Frameworks */ = {isa = PBXBuildFile; productRef = 333A72282E806F3700E573F1 /* Avios */; };
 		339C2FB92E7D78FA001F5FF6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 339C2FB82E7D78FA001F5FF6 /* Alamofire */; };
 		339C2FDA2E7D8597001F5FF6 /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = 339C2FD92E7D8597001F5FF6 /* SwiftDate */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				333A72292E806F3700E573F1 /* Avios in Frameworks */,
 				339C2FDA2E7D8597001F5FF6 /* SwiftDate in Frameworks */,
 				339C2FB92E7D78FA001F5FF6 /* Alamofire in Frameworks */,
 			);
@@ -99,6 +101,7 @@
 			packageProductDependencies = (
 				339C2FB82E7D78FA001F5FF6 /* Alamofire */,
 				339C2FD92E7D8597001F5FF6 /* SwiftDate */,
+				333A72282E806F3700E573F1 /* Avios */,
 			);
 			productName = AnonymousChat;
 			productReference = 337D8BB22E7840690071D405 /* AnonymousChat.app */;
@@ -158,6 +161,7 @@
 			packageReferences = (
 				339C2FB72E7D78FA001F5FF6 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				339C2FD82E7D8597001F5FF6 /* XCRemoteSwiftPackageReference "SwiftDate" */,
+				333A72272E806F3700E573F1 /* XCRemoteSwiftPackageReference "Avios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 337D8BB32E7840690071D405 /* Products */;
@@ -467,6 +471,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		333A72272E806F3700E573F1 /* XCRemoteSwiftPackageReference "Avios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/XenoPOMP/Avios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 		339C2FB72E7D78FA001F5FF6 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -486,6 +498,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		333A72282E806F3700E573F1 /* Avios */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 333A72272E806F3700E573F1 /* XCRemoteSwiftPackageReference "Avios" */;
+			productName = Avios;
+		};
 		339C2FB82E7D78FA001F5FF6 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 339C2FB72E7D78FA001F5FF6 /* XCRemoteSwiftPackageReference "Alamofire" */;
