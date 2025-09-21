@@ -18,16 +18,22 @@ struct Main: View {
     }
     
     private var isLogged: Bool {
+        jumpIn()
+        return inoutUserId != nil
+    }
+    
+    private func jumpIn() {
         let _ = AF.request("\(AppConstants.api.url)/jump-in", method: .post).response { response in
             debugPrint(response)
         }
-        
-        return inoutUserId != nil
     }
     
     var body: some View {
         if !isLogged {
             ProgressView()
+                .refreshable {
+                    jumpIn()
+                }
         }
         else {
             ChatView()
