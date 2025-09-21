@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct KeyboardView: View {
+    @EnvironmentObject<WSManager> private var wsManager
     @State private var message: String = ""
     
     var body: some View {
@@ -24,9 +25,13 @@ struct KeyboardView: View {
                     .frame(height: fieldHeight)
                     .background(Color(UIColor.secondarySystemBackground), in: .capsule)
                 
-                Button(action: {}) {
+                Button(action: {
+                    wsManager.sendMessage(message)
+                }) {
                     Image(systemName: "paperplane.fill")
                 }
+                .disabled(message.isEmpty)
+                .opacity(message.isEmpty ? 0.5 : 1.0)
                 .foregroundStyle(.primary)
                 .frame(width: fieldHeight, height: fieldHeight, alignment: .center)
                 .background(Color.accentColor, in: .circle)
