@@ -53,6 +53,5 @@ struct ChatView: View {
 }
 
 #Preview {
-    Main()
-        .environmentObject(MessageStore())
+    Main().prod()
 }

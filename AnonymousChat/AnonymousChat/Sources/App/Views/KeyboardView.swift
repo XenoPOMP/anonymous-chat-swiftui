@@ -40,6 +40,5 @@ struct KeyboardView: View {
 }
 
 #Preview {
-    Main()
-        .environmentObject(MessageStore())
+    Main().prod()
 }

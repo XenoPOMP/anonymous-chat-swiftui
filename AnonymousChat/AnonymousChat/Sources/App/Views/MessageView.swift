@@ -28,6 +28,5 @@ struct MessageView: View {
 }
 
 #Preview {
-    Main()
-        .environmentObject(MessageStore())
+    Main().prod()
 }

@@ -24,7 +24,7 @@ struct Main: View {
     
     private func jumpIn() {
         let _ = AF.request("\(AppConstants.api.url)/jump-in", method: .post).response { response in
-            debugPrint(response)
+//            debugPrint(response)
         }
     }
     
@@ -42,6 +42,5 @@ struct Main: View {
 }
 
 #Preview {
-    Main()
-        .environmentObject(MessageStore())
+    Main().prod()
 }
